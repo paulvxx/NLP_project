@@ -1,0 +1,66 @@
+Average across all samples:
+-----------------------------------------------------
+BERT
+BLEU: 0.013671875
+ROGUE: 0.024681684622918705
+
+roBERTa
+BLUE: 0.00498714208373436
+ROGUE: 0.008818588573249344
+
+xlnet
+BLUE: 0.006232660480598807
+ROGUE: 0.010883596541164527
+-----------------------------------------------------
+
+
+Random Sample:
+--------------------------
+BLEU Score 0.013671875
+ROGUE Score 0.024681684622918705
+BLEU Cos Sim Normalized Score 0.40073867101311417
+ROGUE Cos Sim Normalized Score 0.4351145906039773
+--------------------------
+BLEU Score 0.00390625
+ROGUE Score 0.006861063464837049
+BLEU Cos Sim Normalized Score 0.6238075430656912
+ROGUE Cos Sim Normalized Score 0.6808656070791188
+--------------------------
+BLEU Score 0.00390625
+ROGUE Score 0.006802721088435374
+BLEU Cos Sim Normalized Score 0.827123057766544
+ROGUE Cos Sim Normalized Score 0.8603082167798064
+--------------------------
+
+
+
+Example with sentences
+"The fox jumped over the flowing river."
+"The quick fox hopped over the stream."
+
+BERT : 
+--------------------------
+BLEU Score 0.7
+ROGUE Score 0.7
+BLEU Cos Sim Normalized Score 0.8409754026054413
+ROGUE Cos Sim Normalized Score  0.8422520494026188
+--------------------------
+
+roBERTa : 
+--------------------------
+BLEU Score 0.7
+ROGUE Score 0.7
+BLEU Cos Sim Normalized Score 0.9682925282294053
+ROGUE Cos Sim Normalized Score  0.9676713634987931
+--------------------------
+
+xlnet : 
+--------------------------
+BLEU Score 0.7272727272727273
+ROGUE Score 0.7272727272727273
+BLEU Cos Sim Normalized Score 0.9886444789178435
+ROGUE Cos Sim Normalized Score  0.9881863712264282
+--------------------------
+
+
+
