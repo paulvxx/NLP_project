@@ -11,10 +11,15 @@ below gives a brief overview of each file and it's main purpose in the project.
 BERT_k_cos.png 
 roBERTa_k_cos.png
 xlnet_k_cos.png - 
-These are the generated predictions corresponding from previously fine-tuned models used during this experiment.
-(i.e. bert_predictions are the predicitons from fine tuning BERT)
-However, you will need to re-train the models to generate new predictions.
-(The model save files were too large to include in this repository)
+These are graphs generated with MatpltLib of the average values of the normalized cosine function
+
+(exp(c*k+k)-1) / (exp(2*k)-1)
+
+where c ranges across all (raw) cosine values corresponding to model-specific metrics
+
+for different constant values of k
+(discretized of course, but the interval difference or delta between consecuative k's is 0.01,
+small enough where the graph can be quite accurate of the actual function).
 
 ## Prediction (model-generated) files
 bert_predictions.txt
