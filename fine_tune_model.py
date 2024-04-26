@@ -8,7 +8,14 @@ from torch.optim.lr_scheduler import StepLR
 
 import torch.nn.functional as F
 
+# Main Python file/module containing functions
+# used to test (fine tune), train, and define the model
+# and tokenize words
+
 # Convert raw text to numerical data (tokens)
+# According to a pretrained model tokenizer
+# Optional padding to max_len characters
+# xl is a special parameter to use XLnet (instead of BERT or roBERTa)
 def text_2_num(texts, tokenizer, max_len=512, xl=False, padding=True):
     indexed_texts = []
     attention_masks = []
@@ -43,6 +50,8 @@ def text_2_num(texts, tokenizer, max_len=512, xl=False, padding=True):
 
     return indexed_texts, attention_masks
 
+# Pytorch inherited class
+# to define the text summarization model
 class TextSummarizationModel(nn.Module):
     def __init__(self, hidden_dim, lstm_layers, vocab_size, pretrained):
         super(TextSummarizationModel, self).__init__()
@@ -61,6 +70,10 @@ class TextSummarizationModel(nn.Module):
         return logits
 
 # more ideal loss function for summarization
+# Focal loss alters the cross entropy loss function
+# which allows the Model to focus on misclassified examples
+# This can help the model avoid repeatedly predicting the same thing 
+# over and over again
 class FocalLoss(nn.Module):
     def __init__(self, gamma=2.0, alpha=0.25, ignore_index=-100, reduction='mean'):
         super(FocalLoss, self).__init__()
@@ -75,6 +88,11 @@ class FocalLoss(nn.Module):
         focal_loss = (self.alpha * (1 - pt) ** self.gamma * ce_loss).mean()
         return focal_loss
 
+# Main loop to train the model
+# dataloader should be a DataLoader object containing
+# batched data to train on
+# substitute the model and epochs to the desired model
+# and number of total epochs
 def train_model(dataload, model, epochs, lr=0.001, pad_token_id=0):
     # train on cuda if possible
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -108,7 +126,9 @@ def train_model(dataload, model, epochs, lr=0.001, pad_token_id=0):
             
             print(f'Epoch {epoch+1}/{epochs}, Loss: {loss.item()}')
 
-
+# function to predict from an already trained model
+# outputs string predictions by decoding  
+# model-generated tokenized output
 def predict_from_model(input_batch, model, tokenizer, max_length=512):
     model.eval()
     predictions = []
@@ -130,6 +150,7 @@ def predict_from_model(input_batch, model, tokenizer, max_length=512):
             #        summary = tokenizer.decode(ids[:eos_index + 1], skip_special_tokens=True)
             #    else:
             #       summary = tokenizer.decode(ids[:max_length], skip_special_tokens=True)
+                
                 summary = tokenizer.decode(ids[:max_length], skip_special_tokens=True)
                 predictions.append(summary)
 
