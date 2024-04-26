@@ -13,6 +13,7 @@ from torch.utils.data import DataLoader, TensorDataset
 # model_save_path specifies the location to save the model after training
 # This function calls the functions defined in fine_tune_model.py
 # for model setup, tokenizing, and training
+# Train on max_samples
 def fine_tune_from_pretrained(tokenizer, model_save_path, model_params, xl=False, max_samples=10388):
     # Load the dataset
     dataset = load_dataset('glnmario/news-qa-summarization')
@@ -79,6 +80,8 @@ path_save = {
 model_params = {'hidden_dim' : 256, 'lstm_layers' : 1, 'vocab_size' : 0,  'pretrained' : models['bert-base-uncased']}
 #model_params = {'hidden_dim' : 256, 'lstm_layers' : 1, 'vocab_size' : 0,  'pretrained' : models['roberta-base']}
 #model_params = {'hidden_dim' : 256, 'lstm_layers' : 1, 'vocab_size' : 0,  'pretrained' : models['xlnet-base-cased']}
+
+# Test on 90 percent of the data
 
 #fine_tune_from_pretrained(tokenizers['tokenizer_bert'], path_save['path_bert'], 
 #                          model_params, max_samples=round(10388*0.9))
