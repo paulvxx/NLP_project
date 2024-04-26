@@ -54,7 +54,7 @@ scores.txt - Used to keep track of (overal, random sample) Metric values (BLEU, 
 
 ---------------------------------------
 
-How would you get started:
+# How would you get started:
 
 You would need to train your model if you wish to generate machine-based predictions. 
 You can do this by simply running the 'news_summarizer.py' program. Just be sure to uncomment the lines corresponding to the model you wish to train on!
