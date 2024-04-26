@@ -6,7 +6,13 @@ from transformers import BertModel, RobertaModel, XLNetModel
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 
-# trains a model 
+# Loads data (within function) from the news-qa-summarization dataset
+# model_params are the specifications for the model
+# tokenizer is a pretrained tokenizer for the model that is being fine tuned
+# xl is a flag to indicate that the pretrained model is XLnet (instead of BERT or roBERTa)
+# model_save_path specifies the location to save the model after training
+# This function calls the functions defined in fine_tune_model.py
+# for model setup, tokenizing, and training
 def fine_tune_from_pretrained(tokenizer, model_save_path, model_params, xl=False, max_samples=10388):
     # Load the dataset
     dataset = load_dataset('glnmario/news-qa-summarization')
@@ -68,9 +74,7 @@ path_save = {
     'path_xlnet' : 'fine_tuned_xlnet.pth',
 }
 
-### Uncomment the model (BERT, roBERTa, or XLNet) that you want to train on
-
-
+### Uncomment the lines corresponding to the model (BERT, roBERTa, or XLNet) that you want to train on
 
 model_params = {'hidden_dim' : 256, 'lstm_layers' : 1, 'vocab_size' : 0,  'pretrained' : models['bert-base-uncased']}
 #model_params = {'hidden_dim' : 256, 'lstm_layers' : 1, 'vocab_size' : 0,  'pretrained' : models['roberta-base']}
