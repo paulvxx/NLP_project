@@ -11,7 +11,8 @@ from fine_tune_model import text_2_num
 # const_k (k) is a normalization constant  for  (exp(k*c+k)-1) / (exp(2*k)-1)
 # The cosine similarity is taken for each pair of words in the reference and prediction
 # For every word r in the reference, the argmax for the cosine similarity (across each word in the prediction)
-# is taken as the "alternative" value compared to whether r is found in the prediction (so it is a value from 0 to 1)
+# is taken as the score [0, 1] for that word r. 
+# Sum up these word scores then divide by the total number of words in the reference to get the final accuracy
 # e.g. for the word "river" --> {"stream", "boat", "lake"},  "stream" may have the highest similarity score, 
 # so the cosine similarity between "river" and "stream" is taken as the accuracy value for that word rather than 0 
 # (as river is not present in the set {"stream", "boat", "lake"})
