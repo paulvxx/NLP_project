@@ -1,4 +1,6 @@
 # NLP_project
+### By: Paul Vanderveen
+
 ## CS436 Natural Language Processing Project
 
 Repository used to store, files, results and graphs used turing training, testing, and evaluation
