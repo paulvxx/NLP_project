@@ -11,7 +11,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-# Takes a list of tokens (ignores padding)
+# Takes a list of tokens (ignores padding), so there should not be padding
 # for reference and prediction sentences 
 # and determines the percentage of words 
 # in the prediction that are present in the reference
@@ -24,7 +24,7 @@ def precision(reference, prediction):
             found += 1
     return found / total
 
-# Takes a list of tokens (ignores padding)
+# Takes a list of tokens (ignores padding), so there should not be padding
 # for reference and prediction sentences 
 # and determines the percentage of words 
 # in the reference that are present in the prediction
@@ -38,19 +38,24 @@ def recall(reference, prediction):
     return found / total
 
 # cosine normalized similarity for precision
+# model used to generate context vectors (embedding layers)
+# tokenizer used to assign tokens to each word
 def cos_precision(model, tokenizer, reference, prediction, k=1):
     # Swapped reference and prediction to get precision
     return cosine_recall(model, tokenizer, prediction, reference, const_k=k)
 
 # cosine normalized similarity for recall
+# model used to generate context vectors (embedding layers)
+# tokenizer used to assign tokens to each word
 def cos_recall(model, tokenizer, reference, prediction, k=1):
     return cosine_recall(model, tokenizer, reference, prediction, const_k=k)
 
 
-# Computes the BLEU metric based on invidiual words (unigrams)
+# Computes the BLEU metric across multiple sentence pairs
+# based on invidiual words (unigrams)
+# This is essentially a measure of precision
 # refs is a list of references
 # preds is a list of predictions
-# cos_sim is a parameter to indicate using cosine similarity integration
 def bleu(refs, preds):
     total = 0
     points = 0
@@ -67,10 +72,11 @@ def bleu(refs, preds):
         return points / total
 
 
-# Computes the ROGUE-1 metric based on invidiual words (unigrams)
+# Computes the ROGUE metric across multiple sentence pairs
+# based on invidiual words (unigrams)
+# This is essentially a measure of both precision and recall
 # refs is a list of references
 # preds is a list of predictions
-# cos_sim is a parameter to indicate using cosine similarity integration
 def rogue(refs, preds):
     total = 0
     points = 0
@@ -109,6 +115,9 @@ def rogue(refs, preds):
 
 
 # Compute cosine similarity with BLEU metric
+# This is the same as BLEU metric but replacing word matching 
+# (i.e 0-1 decision is a word is present of not)
+# with normalized cosine scores instead
 def bleu_cos_norm(model, tokenizer, refs, preds, k=1):
     total = 0
     points = 0
@@ -126,6 +135,9 @@ def bleu_cos_norm(model, tokenizer, refs, preds, k=1):
 
 
 # Compute cosine similarity with ROGUE metric
+# This is the same as BLEU metric but replacing word matching 
+# (i.e 0-1 decision is a word is present of not)
+# with normalized cosine scores instead
 def rogue_cos_norm(model, tokenizer, refs, preds, k=1):
     total = 0
     points = 0
@@ -207,6 +219,9 @@ def k_norm_graph(model_Name, model, tokenizer, r, g, delta=0.04, step=50):
     plt.show()
 
 
+
+### NOTE :  Just uncomment the lines which correspond with the model you want to evaluate with
+
 models = {
     'bert-base-uncased': BertModel.from_pretrained('bert-base-uncased'),
     'roberta-base': RobertaModel.from_pretrained('roberta-base'),
@@ -252,12 +267,7 @@ prediction_tokens, _ = text_2_num(predictions, tokenizers['tokenizer_xlnet'], xl
 
 # Tokenizing is done within the cos similarity function
 
-#print(test_data[69]) 
-#print("--------------------------")
-#print(predictions[69])
-#print("--------------------------")
-
-# Example sentences (ideally for a well-trained model)
+# Example sentences (ideally a well-trained model should generate similarly)
 r = "The fox jumped over the flowing river."
 g = "The quick fox hopped over the stream."
 
@@ -269,8 +279,6 @@ r_tokens, _ = text_2_num([r], tokenizers['tokenizer_xlnet'], xl=True, padding=Fa
 #g_tokens, _ = text_2_num([g], tokenizers['tokenizer_roberta'], padding=False)
 g_tokens, _ = text_2_num([g], tokenizers['tokenizer_xlnet'], xl=True, padding=False)
 
-print(r_tokens)
-print(g_tokens)
 print("BLEU Score " + str(bleu(r_tokens, g_tokens)))
 print("ROGUE Score " + str(rogue(r_tokens, g_tokens)))
 print("BLEU Cos Sim Normalized Score " + str(bleu_cos_norm(model, tokenizer, [r], [g])))
