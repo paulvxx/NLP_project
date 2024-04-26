@@ -6,6 +6,11 @@ from transformers import BertModel, RobertaModel, XLNetModel
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 
+# Function to call the predictions function in fine_tune_model.py
+# start_testing_index indicates where to start testing in main dataset
+# an index of 0 will use the entire dataset for testing
+# model you want to test on
+# tokenizer used to tokenize strings in the test dataset
 def make_predictions(model, tokenizer, xl=False, start_testing_index=0):
     #index to start testing at start_testing_index until end of dataset
     dataset = load_dataset('glnmario/news-qa-summarization')
@@ -43,7 +48,7 @@ path_save = {
     'xlnet_predictions' : 'xlnet_predictions.txt',
 }
 
-### Uncomment the model (BERT, roBERTa, or XLNet) that you want to train on
+### Uncomment the lines corresponding to the model (BERT, roBERTa, or XLNet) that you want to train on
 
 #model_params = {'hidden_dim' : 256, 'lstm_layers' : 1, 'vocab_size' : 30522,  'pretrained' : models['bert-base-uncased']}
 #model_params = {'hidden_dim' : 256, 'lstm_layers' : 1, 'vocab_size' : 50265,  'pretrained' : models['roberta-base']}
@@ -70,7 +75,7 @@ start_testing = round(10388*0.9) # index to start testing at until end of datase
 
 #predictions = make_predictions(new_model, tokenizers['tokenizer_bert'], start_testing_index=start_testing)
 #predictions = make_predictions(new_model, tokenizers['tokenizer_roberta'], start_testing_index=start_testing)
-predictions = make_predictions(new_model, tokenizers['tokenizer_xlnet'], xl=False, start_testing_index=start_testing)
+predictions = make_predictions(new_model, tokenizers['tokenizer_xlnet'], xl=True, start_testing_index=start_testing)
 
 #f = open(path_save['bert_predictions'], 'w', encoding='utf-8')
 #f = open(path_save['roberta_predictions'], 'w', encoding='utf-8')
